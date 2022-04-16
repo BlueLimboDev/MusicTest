@@ -13,6 +13,9 @@ object LocalMusicUtils {
     val allAlbumList = mutableListOf<Album>()
     val allPlayerList = mutableListOf<Player>()
 
+    val albumMusicList = mutableListOf<Music>()
+    var albumNow: Album? = null
+
     /**
      * 获取全部音乐，返回一个ArrayList<Music>()对象
      */
@@ -93,4 +96,14 @@ object LocalMusicUtils {
         return ContentUris.withAppendedId(artworkUri, album_id)
     }
 
+    /**
+     * 根据专辑名称选择对应音乐
+     */
+    fun getAlbumMusic(albumName:String){
+        for (i in 0..allMusicList.size-1){
+            if (allMusicList[i].albumname == albumName){
+                albumMusicList.add(allMusicList[i])
+            }
+        }
+    }
 }
