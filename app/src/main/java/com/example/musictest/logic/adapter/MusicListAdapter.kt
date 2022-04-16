@@ -1,4 +1,4 @@
-package com.example.musictest
+package com.example.musictest.logic.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musictest.logic.model.Music
+import com.example.musictest.R
 
 class MusicListAdapter(val musicList: MutableList<Music>): RecyclerView.Adapter<MusicListAdapter.ViewHolder>() {
 

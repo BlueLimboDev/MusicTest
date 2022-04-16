@@ -1,4 +1,4 @@
-package com.example.musictest
+package com.example.musictest.logic.model
 
 import android.net.Uri
 

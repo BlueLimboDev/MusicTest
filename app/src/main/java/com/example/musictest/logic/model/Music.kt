@@ -1,4 +1,4 @@
-package com.example.musictest
+package com.example.musictest.logic.model
 
 import android.net.Uri
 
@@ -11,5 +11,6 @@ data class Music(
     val player: String,
     val id: Long,
     val uri: Uri,
+    val albumname:String,
     var playing: Boolean
 )

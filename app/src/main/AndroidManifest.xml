@@ -17,7 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicTest">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.AllPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.AllAlbumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

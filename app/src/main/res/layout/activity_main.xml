@@ -29,6 +29,7 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/player_click"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
@@ -65,6 +66,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/album_click"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
