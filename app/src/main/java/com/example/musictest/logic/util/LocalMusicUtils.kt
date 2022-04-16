@@ -13,8 +13,16 @@ object LocalMusicUtils {
     val allAlbumList = mutableListOf<Album>()
     val allPlayerList = mutableListOf<Player>()
 
+    //专辑对应音乐列表
     val albumMusicList = mutableListOf<Music>()
+    //歌手对应音乐列表
+    val playerMusicList = mutableListOf<Music>()
+    //歌手对应专辑列表
+    val playerAlbumList = mutableListOf<Album>()
+
+
     var albumNow: Album? = null
+    var playerNow:Player? = null
 
     /**
      * 获取全部音乐，返回一个ArrayList<Music>()对象
@@ -35,7 +43,7 @@ object LocalMusicUtils {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
                 val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,id)
                 val imageId = getArt(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)))
-                val album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM))
+                val albumName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM))
 
                 val pair = splitNameSinger(name, player)
                 name = pair.first
@@ -43,13 +51,13 @@ object LocalMusicUtils {
                 //把歌曲名字和歌手切割开,如果文件大于8000KB，则为音乐文件
                 if (size > 1000 * 8000) {
                     //将音乐文件名分割为歌曲名和歌手名
-                    val music = Music(imageId,name,player,id,uri,album,false)
+                    val music = Music(imageId,name,player,id,uri,albumName,false)
                     allMusicList.add(music)
 
-                    val album = Album(imageId,album,player)
+                    val album = Album(imageId,albumName,player)
                     alList.add(album)
 
-                    val pla = Player(imageId,player)
+                    val pla = Player(imageId,player,albumName)
                     plList.add(pla)
                 }
             }
@@ -103,6 +111,26 @@ object LocalMusicUtils {
         for (i in 0..allMusicList.size-1){
             if (allMusicList[i].albumname == albumName){
                 albumMusicList.add(allMusicList[i])
+            }
+        }
+    }
+    /**
+     * 根据歌手名获取音乐
+     */
+    fun getPlayerMusic(playerName:String){
+        for (i in 0..allMusicList.size-1){
+            if (allMusicList[i].player == playerName){
+                playerMusicList.add(allMusicList[i])
+            }
+        }
+    }
+    /**
+     * 根据歌手名获取专辑
+     */
+    fun getPlayerAlbum(playerAlbum:String){
+        for (i in 0..allAlbumList.size-1){
+            if (allAlbumList[i].albumName == playerAlbum){
+                playerAlbumList.add(allAlbumList[i])
             }
         }
     }

@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musictest.R
 import com.example.musictest.logic.adapter.PlayerAdapter
 import com.example.musictest.logic.util.LocalMusicUtils.allPlayerList
+import com.example.musictest.logic.util.LocalMusicUtils.playerAlbumList
+import com.example.musictest.logic.util.LocalMusicUtils.playerMusicList
 import kotlinx.android.synthetic.main.activity_all_player.*
 
 class AllPlayerActivity : AppCompatActivity() {
@@ -15,7 +17,13 @@ class AllPlayerActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         all_player_recyclerView.layoutManager = layoutManager
-        val adapter = PlayerAdapter(allPlayerList)
+        val adapter = PlayerAdapter(this,allPlayerList)
         all_player_recyclerView.adapter = adapter
+    }
+
+    override fun onPause() {
+        super.onPause()
+        playerMusicList.clear()
+        playerAlbumList.clear()
     }
 }

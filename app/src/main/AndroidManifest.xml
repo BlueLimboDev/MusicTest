@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicTest">
         <activity
+            android:name=".ui.activity.DetailPlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.DetailAlbumActivity"
             android:exported="false" />
         <activity
