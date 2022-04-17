@@ -2,6 +2,7 @@ package com.example.musictest.logic.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musictest.logic.model.Music
 import com.example.musictest.R
 import com.example.musictest.logic.util.LocalMusicUtils.musicNow
+import com.example.musictest.logic.util.LocalMusicUtils.playingListRecord
 import com.example.musictest.ui.activity.DtailMusicActivity
 
 class MusicListAdapter(val context: Context, val musicList: MutableList<Music>): RecyclerView.Adapter<MusicListAdapter.ViewHolder>() {
@@ -27,6 +29,14 @@ class MusicListAdapter(val context: Context, val musicList: MutableList<Music>):
         viewHolder.itemView.setOnClickListener{
             val position = viewHolder.adapterPosition
             musicNow = musicList[position]
+            playingListRecord.clear()
+            for (i in 0..musicList.size-1){
+                playingListRecord.add(musicList[i])
+            }
+
+            val i = musicList.size.toString()
+            Log.d("ceshi",i)
+
             val intent = Intent(context, DtailMusicActivity::class.java)
             context.startActivity(intent)
         }

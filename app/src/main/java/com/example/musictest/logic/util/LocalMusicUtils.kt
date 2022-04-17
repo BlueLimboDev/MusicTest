@@ -25,6 +25,10 @@ object LocalMusicUtils {
     var playerNow:Player? = null
     var musicNow:Music? = null
 
+    //当前音乐列表、指针
+    val playingListRecord = mutableListOf<Music>()
+    var intNow:Int? = null
+
     /**
      * 获取全部音乐，返回一个ArrayList<Music>()对象
      */
