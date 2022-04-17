@@ -20,9 +20,10 @@ object LocalMusicUtils {
     //歌手对应专辑列表
     val playerAlbumList = mutableListOf<Album>()
 
-
+    //当前专辑、歌手、音乐指针
     var albumNow: Album? = null
     var playerNow:Player? = null
+    var musicNow:Music? = null
 
     /**
      * 获取全部音乐，返回一个ArrayList<Music>()对象

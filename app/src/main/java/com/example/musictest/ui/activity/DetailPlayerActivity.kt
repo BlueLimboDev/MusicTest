@@ -51,7 +51,7 @@ class DetailPlayerActivity : AppCompatActivity() {
     fun showMusic(){
         val layoutManager = LinearLayoutManager(this)
         player_detail_recyclerView.layoutManager = layoutManager
-        val adapter = MusicListAdapter(playerMusicList)
+        val adapter = MusicListAdapter(this,playerMusicList)
         player_detail_recyclerView.adapter = adapter
     }
     fun showAlbum(){

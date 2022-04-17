@@ -26,7 +26,7 @@ class DetailAlbumActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         album_allmusic_recyclerView.layoutManager = layoutManager
-        val adapter = MusicListAdapter(albumMusicList)
+        val adapter = MusicListAdapter(this,albumMusicList)
         album_allmusic_recyclerView.adapter = adapter
 
         collapsingToolbar.title = albumNow!!.albumName

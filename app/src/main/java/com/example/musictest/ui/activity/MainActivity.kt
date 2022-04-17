@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     fun show(){
         val layoutManager = LinearLayoutManager(this)
         allmusic_recyclerView.layoutManager = layoutManager
-        val adapter = MusicListAdapter(allMusicList)
+        val adapter = MusicListAdapter(this,allMusicList)
         allmusic_recyclerView.adapter = adapter
     }
     fun showAlbum(){
