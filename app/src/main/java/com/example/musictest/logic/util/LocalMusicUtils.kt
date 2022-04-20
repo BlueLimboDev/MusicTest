@@ -2,8 +2,10 @@ package com.example.musictest.logic.util
 
 import android.content.ContentUris
 import android.content.Context
+import android.media.MediaPlayer
 import android.net.Uri
 import android.provider.MediaStore
+import android.widget.Toast
 import com.example.musictest.logic.model.Album
 import com.example.musictest.logic.model.Music
 import com.example.musictest.logic.model.Player
@@ -26,8 +28,13 @@ object LocalMusicUtils {
     var musicNow:Music? = null
 
     //当前音乐列表、指针
-    val playingListRecord = mutableListOf<Music>()
+    var playingListRecord = mutableListOf<Music>()
     var intNow:Int? = null
+
+    /**
+     * 全局音乐播放对象
+     */
+    val mediaPlayer = MediaPlayer()
 
     /**
      * 获取全部音乐，返回一个ArrayList<Music>()对象
@@ -137,6 +144,45 @@ object LocalMusicUtils {
             if (allAlbumList[i].albumName == playerAlbum){
                 playerAlbumList.add(allAlbumList[i])
             }
+        }
+    }
+
+    /**
+     * 播放音乐方法
+     */
+    fun playMusic(context: Context,music: Music){
+        if (mediaPlayer.isPlaying){
+            mediaPlayer.reset()
+        }
+        mediaPlayer.setDataSource(context,music.uri)
+        mediaPlayer.prepare()
+        mediaPlayer.start()
+    }
+    /**
+     * 播放上一首
+     */
+    fun playAfter(context: Context){
+        if(intNow != null){
+            intNow = intNow?.minus(1)
+            if (intNow == 0){
+                intNow = playingListRecord.size
+            }
+            playMusic(context,playingListRecord[intNow!!])
+        }else{
+            Toast.makeText(context,"请点击音乐播放",Toast.LENGTH_SHORT).show()
+        }
+    }
+    /**
+     * 播放下一首
+     */
+    fun playNext(context: Context){
+        if (intNow != null){
+            intNow = intNow?.plus(1)
+            if (intNow!! > playingListRecord.size){
+                intNow = 1
+            }
+        }else{
+            Toast.makeText(context,"请点击音乐播放",Toast.LENGTH_SHORT).show()
         }
     }
 }

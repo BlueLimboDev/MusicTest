@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -16,17 +15,21 @@ import com.example.musictest.R
 import com.example.musictest.logic.adapter.AlbumShowAdapter
 import com.example.musictest.logic.adapter.MusicListAdapter
 import com.example.musictest.logic.adapter.PlayerShowAdapter
-import com.example.musictest.logic.model.Music
-import com.example.musictest.logic.util.LocalMusicUtils
+import com.example.musictest.logic.service.MusicService
 import com.example.musictest.logic.util.LocalMusicUtils.allAlbumList
 import com.example.musictest.logic.util.LocalMusicUtils.allMusicList
 import com.example.musictest.logic.util.LocalMusicUtils.allPlayerList
 import com.example.musictest.logic.util.LocalMusicUtils.getAllMusic
+import com.example.musictest.logic.util.LocalMusicUtils.intNow
 import com.example.musictest.logic.util.LocalMusicUtils.playingListRecord
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_playing_list.*
 
 class MainActivity : AppCompatActivity() {
+
+    val musicAdapter = MusicListAdapter(this,allMusicList)
+    var playingAdapter = MusicListAdapter(this, playingListRecord)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,8 +37,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(playingListtoolbar)
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
-            it.setHomeAsUpIndicator(R.drawable.playing)
+            it.setHomeAsUpIndicator(R.drawable.ic_menu)
         }
+
+        val intent = Intent(this,MusicService::class.java)
+        startService(intent)
 
         /**
          * 授权 / 检查授权
@@ -58,7 +64,37 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        /**
+         * 如果点击了播放内容，则刷新播放列表
+         */
         showPlayingList()
+        sume_music.text = playingListRecord.size.toString()
+
+        if (playingListRecord.size != 0){
+            playingAdapter.musicList[intNow!!].playing = true
+            playingAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        /**
+         * 如果为主播放列表，则刷新全部音乐列表
+         */
+        if (musicAdapter.musicList.size == playingListRecord.size){
+            for (i in 0..musicAdapter.musicList.size-1){
+                musicAdapter.musicList[i].playing = false
+            }
+            musicAdapter.musicList[intNow!!].playing = true
+        }else{
+            for (i in 0..musicAdapter.musicList.size-1){
+                musicAdapter.musicList[i].playing = false
+            }
+        }
+        musicAdapter.notifyDataSetChanged()
+
+
     }
 
     /**
@@ -91,15 +127,14 @@ class MainActivity : AppCompatActivity() {
      */
     fun iniData(){
         getAllMusic(this)
-        show()
+        showMusic()
         showAlbum()
         showPlayer()
     }
-    fun show(){
+    fun showMusic(){
         val layoutManager = LinearLayoutManager(this)
         allmusic_recyclerView.layoutManager = layoutManager
-        val adapter = MusicListAdapter(this,allMusicList)
-        allmusic_recyclerView.adapter = adapter
+        allmusic_recyclerView.adapter = musicAdapter
     }
     fun showAlbum(){
         val layoutManager = LinearLayoutManager(this)
@@ -118,7 +153,6 @@ class MainActivity : AppCompatActivity() {
     fun showPlayingList(){
         val layoutManager = LinearLayoutManager(this)
         playinglist_recyclerView.layoutManager = layoutManager
-        val adapter = MusicListAdapter(this, playingListRecord)
-        playinglist_recyclerView.adapter = adapter
+        playinglist_recyclerView.adapter = playingAdapter
     }
 }
